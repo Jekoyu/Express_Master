@@ -16,8 +16,12 @@ router.patch(`/${pathGroup}/admin/:account_id`, accountAdminValidationRules.upda
 router.delete(`/${pathGroup}/admin/:account_id`, adminController.softDelete);
 
 // // agent
-// const agentController = require('../src/controller/account-agent.controller');
-// router.get(`/${pathGroup}/agent`, tokenValidation, agentController.showAll);
-// router.get(`/${pathGroup}/agent/:account_id`, tokenValidation, agentController.detail);
+const agentController = require('../src/controller/account-agent.controller');
+router.get(`/${pathGroup}/agent`, agentController.showAll);
+router.get(`/${pathGroup}/agent/:account_id`, agentController.detail);
+router.post(`/${pathGroup}/agent`,requestValidation, agentController.create);
+router.patch(`/${pathGroup}/agent/:account_id`,requestValidation, agentController.update);
+router.delete(`/${pathGroup}/agent/:account_id`, agentController.softDelete);
+
 
 module.exports = router;
