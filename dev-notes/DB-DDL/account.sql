@@ -1,0 +1,23 @@
+CREATE TABLE `account` (
+    `account_id` char(36) NOT NULL,
+    `name` varchar(255) DEFAULT NULL,
+    `dial_code` varchar(5) DEFAULT NULL,
+    `phone` varchar(16) DEFAULT NULL,
+    `email` varchar(255) DEFAULT NULL,
+    `role_id` char(4) DEFAULT NULL,
+    `user_name` varchar(255) DEFAULT NULL,
+    `pass_word` varchar(255) DEFAULT NULL,
+    `account_status_id` char(3) NOT NULL,
+    `referral` varchar(50) DEFAULT NULL,
+    `last_login` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `created_by` char(36) DEFAULT NULL,
+    `modified_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `modified_by` char(36) DEFAULT NULL,
+    `id_admin` int DEFAULT NULL,
+    PRIMARY KEY (`account_id`),
+    KEY `role_id` (`role_id`),
+    KEY `account_status_id` (`account_status_id`),
+    CONSTRAINT `account_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `role` (`role_id`),
+    CONSTRAINT `account_ibfk_2` FOREIGN KEY (`account_status_id`) REFERENCES `account_status` (`account_status_id`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci
