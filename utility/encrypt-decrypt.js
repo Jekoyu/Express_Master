@@ -5,23 +5,33 @@ const configKey = require('../config/aes.config');
 class EncryptDecryptClass {
     constructor() {
         this.AES_METHOD = 'aes-256-cbc';
-        this.IV_LENGTH = 16; // For AES, this is always 16, checked with php
-        this.SALTROUNDS = 10; // bcrypt
-        this.KEY = configKey.KEY; // Must be 256 bytes (32 characters)
+        this.IV_LENGTH = 16;
+        this.SALTROUNDS = 10;
+    
+        if (!configKey.KEY || configKey.KEY.length !== 32) {
+            throw new Error('Invalid encryption key: Must be 32 characters');
+        }
+        if (!configKey.IV || configKey.IV.length !== 16) {
+            throw new Error('Invalid IV: Must be 16 characters');
+        }
+    
+        this.KEY = configKey.KEY;
         this.IV = configKey.IV;
     }
+    
 
     encrypt(text) {
-        if (process.versions.openssl <= '1.0.1f') {
-            throw new Error('OpenSSL Version too old, vulnerability to Heartbleed');
+        if (!text || typeof text !== 'string') {
+            throw new Error('Text untuk enkripsi tidak boleh kosong atau undefined');
         }
-
+    
         let cipher = crypto.createCipheriv(this.AES_METHOD, Buffer.from(this.KEY), this.IV);
         let encrypted = cipher.update(text, 'utf8', 'hex');
         encrypted += cipher.final('hex');
-
+    
         return encrypted;
     }
+    
 
     decrypt(text) {
         try {

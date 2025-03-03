@@ -13,6 +13,12 @@ const login = async (req) => {
     const username = body.username;
     const password = body.password;
 
+    console.log("Headers:", req.headers);
+    console.log("Body:", req.body);
+
+    if (!req.body || !req.body.username || !req.body.password) {
+        return res.status(400).json({ message: "Invalid request: Missing username or password" });
+    }
     // get timezone from req header
     const timezone = req.get('timezone');
     const utcOffset = req.get('utc-offset');
@@ -52,7 +58,7 @@ const login = async (req) => {
         login_time: new Date().getTime(),
         refresh_token: new Date().getTime()
     };
-    await tokenService.storeTokenToRedis(keyAccess, payloadRedis);
+    // await tokenService.storeTokenToRedis(keyAccess, payloadRedis);
 
     // 6. store last_login
     const data = { last_login: new Date() };

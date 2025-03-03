@@ -22,15 +22,15 @@ const generatePublicToken = (key_access) => {
     };
 };
 
-const storeTokenToRedis = async (key, payload) => {
-    try {
-        await redisClient.set(key, JSON.stringify(payload), 'EX', TokenExpiredTime + 60); // redis TTL/exp = TokenExpiredTime + 60s
+// const storeTokenToRedis = async (key, payload) => {
+//     try {
+//         await redisClient.set(key, JSON.stringify(payload), 'EX', TokenExpiredTime + 60); // redis TTL/exp = TokenExpiredTime + 60s
 
-        return true;
-    } catch (error) {
-        throw new Error(error);
-    }
-};
+//         return true;
+//     } catch (error) {
+//         throw new Error(error);
+//     }
+// };
 
 const checkAuthToken = async (token, key) => {
     // 1. check valid token (is 'key' on header token match with header x-api-key?)
@@ -152,7 +152,7 @@ module.exports = {
     isExpired,
     generateAccess,
     generatePublicToken,
-    storeTokenToRedis,
+    // storeTokenToRedis,
     checkAuthToken,
     getAuthAccount,
     removeTokenFromRedis
